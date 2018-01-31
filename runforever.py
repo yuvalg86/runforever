@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 import time
-from abc import abstractmethod
+from abc import abstractmethod, ABCMeta
 
 
 def fib_backoff_function(n):
@@ -13,28 +13,28 @@ def fib_backoff_function(n):
     # without calculating the previous numbers each time
     a, b = 1, 1
     for i in range(n):
-        a, b = b, a+b
+        a, b = b, a + b
     return a
 
 
-class RunForever:
+class RunForever(metaclass=ABCMeta):
     INITIAL_COUNTER_VALUE = 0
     MAX_COUNTER_VALUE = 6
 
     def __init__(self):
-        self.backoff_cnt = RunForever.INITIAL_COUNTER_VALUE
+        self.backoff_cnt = self.INITIAL_COUNTER_VALUE
         self.calc_T = fib_backoff_function
         self.sleep = time.sleep
 
     def resetT(self):
-        self.backoff_cnt = RunForever.INITIAL_COUNTER_VALUE
+        self.backoff_cnt = self.INITIAL_COUNTER_VALUE
 
     def getT(self):
         return self.calc_T(self.backoff_cnt)
 
     def incT(self):
         self.backoff_cnt += 1
-        if self.backoff_cnt >= RunForever.MAX_COUNTER_VALUE:
+        if self.backoff_cnt >= self.MAX_COUNTER_VALUE:
             self.resetT()
 
     # could be __call__ and than

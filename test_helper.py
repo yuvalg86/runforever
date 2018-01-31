@@ -11,14 +11,14 @@ EPSILON_SEC = 0.1
 def calc_fib(n):
     # this code repetition from runforever is
     # actually neccesery (in order to verify test the T)
-        a, b = 1, 1
-        for i in range(n):
-            a, b = b, a+b
-        return a
+    a, b = 1, 1
+    for i in range(n):
+        a, b = b, a + b
+    return a
 
 
 def check_interval(time1, time2, epsilon_SEC=EPSILON_SEC):
-    return (abs(time1-time2) <= epsilon_SEC)
+    return (abs(time1 - time2) <= epsilon_SEC)
 
 
 # calcs the correct delta for values.
@@ -40,7 +40,7 @@ def parse_line(line):
 # helper for is_sublist
 def n_slices(n, list_):
     for i in range(len(list_) + 1 - n):
-        yield list_[i:i+n]
+        yield list_[i:i + n]
 
 
 # checks if sublist is in list.
@@ -107,7 +107,7 @@ class LogParser:
     def __call__(self, q):
         try:
             with open(self.log_file, 'r') as fp:
-                print ("printing log lines from the spawned class -")
+                print("printing log lines from the spawned class -")
                 # while theres a pattern then we didnt find yet
                 while None in self.results.values():
                     line = fp.readline()
@@ -148,6 +148,7 @@ class LogParser:
                 print("all good", self.results)
             if q:
                 q.put(self.results)
+
 
 if __name__ == "__main__":
     a = LogParser('my_runner.log.sample')

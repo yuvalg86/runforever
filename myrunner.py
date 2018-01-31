@@ -33,9 +33,10 @@ class MyRunner(RunForever):
         except KeyboardInterrupt:
             logging.info("Bye Bye, got ctrl+c")
         except Exception as e:
-            logging.error("Exception occured while running: "+str(e))
+            logging.error("Exception occured while running: " + str(e))
 
 
 if __name__ == "__main__":
     a = MyRunner()
+    print("My Runner created...")
     a.cant_stop_me_now()

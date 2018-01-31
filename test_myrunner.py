@@ -18,21 +18,20 @@ import queue
 class TestRunForeverMethods(unittest.TestCase):
     def setUp(self):
         # setting up new instance before each class
-        self.defaultAbstractObj = RunForever()
+        self.obj = MyRunner()
         self.MAXT = RunForever.MAX_COUNTER_VALUE
         self.MINT = RunForever.INITIAL_COUNTER_VALUE
-        self.mr = MyRunner()
 
         # unit tests
     def test_init_reset(self):
-        obj = self.defaultAbstractObj
+        obj = self.obj
         self.assertEqual(obj.getT(), 1, "initial value of fib should be 1")
         obj.resetT()
         self.assertEqual(obj.getT(), 1, "initial value of fib should be 1")
 
     def test_inc_no_reset(self):
         a, b = 1, 1
-        obj = self.defaultAbstractObj
+        obj = self.obj
         for i in range(self.MINT, self.MAXT - 1):
             self.assertEqual(obj.getT(), a, "increasement failed. " + str(i) +
                              "-th element in fib seq IMHO should be " + str(a))
@@ -40,7 +39,7 @@ class TestRunForeverMethods(unittest.TestCase):
             obj.incT()
 
     def test_inc_reset(self):
-        obj = self.defaultAbstractObj
+        obj = self.obj
         for i in range(self.MINT, self.MAXT + 1):
             obj.incT()
         self.assertEqual(obj.getT(), 1, "reset failed." +
@@ -83,7 +82,8 @@ class TestRunForeverMethods(unittest.TestCase):
         self.assertNotIn(False, results.values(),
                          "there is functionality that doesnt work or tested")
         runner_thread.join(1)
-        print ("ENDED CLASS THREAD")
+        print("ENDED CLASS THREAD")
+
 
 if __name__ == '__main__':
     # TODO: its reasonable to add suites here.
