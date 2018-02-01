@@ -1,0 +1,75 @@
+FINDING A THRESHOLD FOR BEST IMAGE SEGMENTATION
+
+{} - stands for remarks after some studying into the problem with google.
+
+1. my first intuition was finding the median value of the M*N ceils. after that, we can increase the points that are bigger than it, and decrease the points smaller.the drawback might be losing a lot of data if have a small variety of values. [for example, the whole picture is 0 appears M/N-2 times 126,1*127] {GLOBAL THREASHOLD} this runs at O(M*N)
+
+for 1 - the algoritm would be:
+{//building an Histogram}
+Array = 256 ceil array,
+for each ceil:
+	 Array[ceil.value] ++
+// finding the median value
+median = N*M/2
+sum = 0
+for i=1 to 256
+	sum += array[i]
+	if sum > median
+		return i
+
+2. second intuition (after I remembered what we discussed in our meeting some time ago) was finding the local median of a more local area (for example, 8 cells around or k cells around) [actually the first intuition sounds now like just a particular case for k=N*M/2]) and using this local threshold for a more precise segmentation. this will be more expansive in terms of computation yet might give us a less loss of result.
+O(M*N*K)
+probably the k=8\k=4 will give us the "noisiest" much more detailed picture. {IN blocks}
+
+
+the algoritm will be the same as I but each ceil: 
+[for k=8]
+for ceil[i,j] in 1..256:
+	Array =256 ceil array,
+	for each ceil in [i-1,j-1],[i,j-1],[i+1,j],...[i+1,j+1]:
+	 	Array[ceil.value] ++
+	 	median = 4
+	sum = 0
+
+	for i=1 to 256
+		sum += array[i]
+	if sum > median
+		return i
+
+	 if ceil[i,j] > i: 255
+	 else 0
+
+---- this is the part I did mainly from my intuition with some thoughts from Dan's & I meeting ----
+
+after reading bit more from google:
+{
+I found out the otsu's method which seems to be pretty common,
+
+let's choose a random number T in range 0..256 (random is my favorite number~!~)
+
+
+go thru the histogram and calculate:
+P1 = sum of *probabilities of the values < T 
+P2 = sum of probabilities of the values > T
+
+P(i) probabilty of a single value. i.e number in the array/N*M
+M1 =  for i=1 to T, sum of (i*P(i)/P(1)
+M2=  for i=T+1 to 256, sum of (i*P(i)/P(2)
+* - [count the values in the histogram, and devide by N*M]
+
+finding Variances:
+O1 = for i=1 to T, sum of [i - M1]^2*[P(i)/P1]
+O2 = for i=1 to T, sum of [i - M2]^2*[P(i)/P2]
+
+and minimizing the function:
+P1*O1 + P2*O2
+
+save the result, and update Min if it's the minimal value (here we will have a minimization problem...)
+and finding the minimal T will involve no more than 255 tries.
+
+[there are lot of optimizations could be done here, but I couldn't [due to time constraints] really dive into this for now]
+
+I have no doubt there are lot of other facinating approaches that I didn't encountered within my limited time to reasearch this problem.
+
+}
+
