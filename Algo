@@ -68,7 +68,7 @@ save the result, and update Min if it's the minimal value (here we will have a m
 and finding the minimal T will involve no more than 255 tries.
 
 [there are lot of optimizations could be done here, but I couldn't [due to time constraints] really dive into this for now]
-
+also, we can apply this technique on 8 neighbours or k neighbors and we would expact some more details.
 I have no doubt there are lot of other facinating approaches that I didn't encountered within my limited time to reasearch this problem.
 
 }
